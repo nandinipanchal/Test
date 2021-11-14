@@ -5,6 +5,7 @@ chai.should()
 chai.use(chaiHttp)
 
 let BASE_URL= 'http://localhost:7000'
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdmNmU1ZjliZTQ0YzYxOGFiZDliNGYiLCJuYW1lIjoicGV0ZXIiLCJpYXQiOjE2MzY5MDYyODEsImV4cCI6MTYzOTQ5ODI4MX0.lArZgUmtuQbT5EJQC_atYLPquR3_TqfXBGv2XOJOCgM'
 describe('JOBS API', () => {
     
     describe('GET /' ,()=>{
@@ -39,5 +40,20 @@ describe('JOBS API', () => {
                 done()
             })
         })
+
+        it('it should check the authorized route' , (done) =>{
+            chai.request(BASE_URL)
+            .get('/api/v1/user/login')
+            .set({'Authorization':`Bearer ${token}`})
+            .end( (err,res) =>{
+                res.should.have.status(200)
+                const data = res.body
+                console.log(data)
+                done()
+            })
+        })
+
+        
+
     })
 })
